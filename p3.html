@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nexus AI | Intelligent SaaS Dashboard</title>
+    <!-- Google Fonts: Inter & Space Grotesk for modern, professional feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN for modern analytics chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4fe 0%, #e9eff8 100%);
+            font-family: 'Inter', sans-serif;
+            color: #111827;
+            line-height: 1.5;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a0aec0;
+            border-radius: 10px;
+        }
+
+        /* Dashboard layout grid */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========= SIDEBAR (unique glassmorphism) ========= */
+        .sidebar {
+            width: 280px;
+            background: rgba(18, 25, 45, 0.92);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255,255,255,0.12);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(59,130,246,0.3);
+        }
+
+        .logo-icon i {
+            font-size: 1.6rem;
+            color: white;
+        }
+
+        .logo-text h2 {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(120deg, #ffffff, #c4e0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .logo-text p {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.85rem 1rem;
+            border-radius: 16px;
+            font-weight: 500;
+            color: #cbd5e6;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+        .nav-item.active {
+            background: rgba(59,130,246,0.25);
+            color: white;
+            backdrop-filter: blur(4px);
+            border-left: 3px solid #3b82f6;
+        }
+        .nav-item:hover:not(.active) {
+            background: rgba(255,255,255,0.08);
+            color: #eef2ff;
+        }
+
+        .user-card {
+            margin-top: auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(4px);
+        }
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(145deg, #3b82f6, #9333ea);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+        .user-info h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+        }
+        .user-info p {
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        /* ========= MAIN CONTENT ========= */
+        .main-content {
+            flex: 1;
+            padding: 1.8rem 2.2rem;
+            overflow-x: auto;
+        }
+
+        /* Header section */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .greeting h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #2d3a5e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .greeting p {
+            color: #4b5563;
+            font-weight: 500;
+        }
+        .date-badge {
+            background: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.03);
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* KPI Cards grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.4rem 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.25s;
+            border: 1px solid rgba(203,213,225,0.4);
+            backdrop-filter: blur(2px);
+        }
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.08);
+            border-color: #cbd5e1;
+        }
+        .kpi-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #5b6e8c;
+            margin-bottom: 0.6rem;
+        }
+        .kpi-value {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+        .kpi-trend {
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 30px;
+        }
+        .trend-up { color: #10b981; }
+        .trend-down { color: #ef4444; }
+
+        /* Double row: Chart + Recent Activity */
+        .insight-row {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        .chart-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #eef2ff;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        .chart-header h3 {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        canvas {
+            max-height: 260px;
+            width: 100%;
+        }
+        .activity-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.2rem;
+            border: 1px solid #eef2ff;
+        }
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .activity-icon {
+            width: 38px;
+            height: 38px;
+            background: #eef2ff;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+        }
+        .activity-detail p {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .activity-detail span {
+            font-size: 0.7rem;
+            color: #6c757d;
+        }
+
+        /* Projects Table Section (unique modern table) */
+        .projects-section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid #eef2ff;
+            margin-top: 0.5rem;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        .section-title h3 {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .badge-new {
+            background: #3b82f6;
+            color: white;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .modern-table th {
+            text-align: left;
+            padding: 0.9rem 0.5rem;
+            font-weight: 600;
+            color: #4b5563;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .modern-table td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-weight: 500;
+            color: #1e293b;
+        }
+        .status-badge {
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .status-badge.warning {
+            background: #fff3e3;
+            color: #c2410c;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 90px;
+                padding: 1.5rem 0.5rem;
+            }
+            .logo-text, .nav-item span, .user-info {
+                display: none;
+            }
+            .nav-item i {
+                margin: 0 auto;
+                font-size: 1.4rem;
+            }
+            .nav-item {
+                justify-content: center;
+            }
+            .user-card {
+                justify-content: center;
+            }
+            .user-avatar {
+                margin: 0 auto;
+            }
+            .insight-row {
+                grid-template-columns: 1fr;
+            }
+            .main-content {
+                padding: 1.2rem;
+            }
+        }
+        @media (max-width: 650px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .top-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+        }
+        button {
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- Sidebar unique glass + modern -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="logo-text">
+                <h2>NexusAI</h2>
+                <p>intelligence suite</p>
+            </div>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-robot"></i>
+                <span>AI Agents</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-folder-tree"></i>
+                <span>Projects</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </div>
+        <div class="user-card">
+            <div class="user-avatar">
+                <i class="fas fa-user-astronaut"></i>
+            </div>
+            <div class="user-info">
+                <h5>Alex Morgan</h5>
+                <p>Pro Plan · AI Lead</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Header with dynamic date -->
+        <div class="top-header">
+            <div class="greeting">
+                <h1>Welcome back, Alex 👋</h1>
+                <p>Your AI-powered performance cockpit is live</p>
+            </div>
+            <div class="date-badge">
+                <i class="far fa-calendar-alt"></i>
+                <span id="currentDate"></span>
+            </div>
+        </div>
+
+        <!-- KPI Cards: modern metrics -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Total Revenue</div>
+                <div class="kpi-value">$48,521</div>
+                <div class="kpi-trend"><i class="fas fa-arrow-up trend-up"></i> <span class="trend-up">+12.8%</span> vs last month</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Active Users</div>
+                <div class="kpi-value">3,294</div>
+                <div class="kpi-trend"><i class="fas fa-arrow-up trend-up"></i> <span class="trend-up">+8.2%</span> new signups</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">AI Requests (24h)</div>
+                <div class="kpi-value">128.7k</div>
+                <div class="kpi-trend"><i class="fas fa-charging-station"></i> <span>+23% inference</span></div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Engagement Score</div>
+                <div class="kpi-value">94<span style="font-size:1.2rem;">/100</span></div>
+                <div class="kpi-trend"><i class="fas fa-star" style="color:#fbbf24;"></i> Excellent</div>
+            </div>
+        </div>
+
+        <!-- Insight Row: Chart.js + Recent Activity -->
+        <div class="insight-row">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-waveform" style="margin-right: 8px; color:#3b82f6;"></i> Performance Trend</h3>
+                    <span style="font-size:0.7rem; background:#f1f5f9; padding:4px 10px; border-radius:20px;">Last 7 days</span>
+                </div>
+                <canvas id="trendChart" width="400" height="200" style="width:100%; max-height: 240px;"></canvas>
+            </div>
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h3><i class="fas fa-bolt" style="margin-right: 8px; color:#f59e0b;"></i> Live Activity Feed</h3>
+                    <i class="fas fa-ellipsis-h" style="color:#94a3b8;"></i>
+                </div>
+                <div class="activity-list" id="activityFeed">
+                    <!-- dynamic content via JS but also static for demo -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Table: Unique Data Table for SaaS Operations -->
+        <div class="projects-section">
+            <div class="section-title">
+                <h3><i class="fas fa-cubes" style="margin-right: 10px; color:#3b82f6;"></i> Active Deployments</h3>
+                <div class="badge-new">AI-optimized</div>
+            </div>
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Project name</th>
+                        <th>Status</th>
+                        <th>API Calls (month)</th>
+                        <th>Cost (USD)</th>
+                        <th>Last updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fab fa-aws" style="margin-right: 8px;"></i> Neural Search Engine</td>
+                        <td><span class="status-badge">Active</span></td>
+                        <td>845k</td>
+                        <td>$2,340</td>
+                        <td>2h ago</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-chart-line" style="margin-right: 8px;"></i> Predictive Analytics Core</td>
+                        <td><span class="status-badge">Active</span></td>
+                        <td>1.2M</td>
+                        <td>$4,120</td>
+                        <td>Yesterday</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-language" style="margin-right: 8px;"></i> Multilingual LLM Gateway</td>
+                        <td><span class="status-badge warning">Beta</span></td>
+                        <td>392k</td>
+                        <td>$1,875</td>
+                        <td>3h ago</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-shield-alt"></i> Security Copilot</td>
+                        <td><span class="status-badge">Active</span></td>
+                        <td>210k</td>
+                        <td>$990</td>
+                        <td>Just now</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Set dynamic current date
+    const dateElem = document.getElementById('currentDate');
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateElem.textContent = new Date().toLocaleDateString(undefined, options);
+
+    // -------- Chart.js config: modern gradient line chart (unique) --------
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    // gradient fill
+    const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+    gradient.addColorStop(0, 'rgba(59,130,246,0.35)');
+    gradient.addColorStop(1, 'rgba(59,130,246,0.02)');
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'API Requests (thousands)',
+                data: [42, 48, 53, 67, 82, 94, 112],
+                borderColor: '#3b82f6',
+                backgroundColor: gradient,
+                borderWidth: 3,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#3b82f6',
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                tension: 0.3,
+                fill: true,
+                pointStyle: 'circle'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: '#0f172a', titleColor: '#e2e8f0', bodyColor: '#cbd5e6' }
+            },
+            scales: {
+                y: { grid: { color: '#eef2ff' }, title: { display: true, text: 'Requests (k)', color: '#4b5563' } },
+                x: { grid: { display: false }, ticks: { fontWeight: 500 } }
+            }
+        }
+    });
+
+    // Recent activity feed: dynamic interactive (unique behaviour: new activity appears every 12 sec)
+    const activityContainer = document.getElementById('activityFeed');
+    const activityExamples = [
+        { icon: 'fa-rocket', text: 'New AI model deployed: "Nexus-7B"', time: '2 min ago', color: '#3b82f6' },
+        { icon: 'fa-user-plus', text: 'User "emmawilson" upgraded to Enterprise', time: '14 min ago', color: '#8b5cf6' },
+        { icon: 'fa-chart-simple', text: 'Dashboard analytics export completed', time: '34 min ago', color: '#10b981' },
+        { icon: 'fa-microchip', text: 'GPU utilization peaked at 94%', time: '1 hour ago', color: '#f97316' },
+        { icon: 'fa-cloud-arrow-up', text: 'Weekly dataset sync finished', time: '2 hours ago', color: '#3b82f6' }
+    ];
+
+    function buildActivityItem(act) {
+        const div = document.createElement('div');
+        div.className = 'activity-item';
+        div.innerHTML = `
+            <div class="activity-icon" style="background:#eef2ff; color:${act.color};">
+                <i class="fas ${act.icon}"></i>
+            </div>
+            <div class="activity-detail">
+                <p>${act.text}</p>
+                <span><i class="far fa-clock"></i> ${act.time}</span>
+            </div>
+        `;
+        return div;
+    }
+
+    function renderInitialActivities() {
+        activityContainer.innerHTML = '';
+        // show 4 latest activities from static but make it feel fresh
+        const recent = [...activityExamples].slice(0, 4);
+        recent.forEach(act => {
+            activityContainer.appendChild(buildActivityItem(act));
+        });
+    }
+
+    // function to add new simulated activity at top (unique realtime feel)
+    let newActivityCount = 0;
+    const newEvents = [
+        { icon: 'fa-bell', text: 'Alert: Anomaly detection triggered', time: 'Just now', color: '#ef4444' },
+        { icon: 'fa-chart-line', text: 'Weekly MRR grew +5.2%', time: 'Now', color: '#10b981' },
+        { icon: 'fa-robot', text: 'AI assistant answered 320 queries', time: 'Moments ago', color: '#a855f7' },
+        { icon: 'fa-database', text: 'Real-time sync completed', time: 'Now', color: '#3b82f6' },
+    ];
+
+    function addNewActivity() {
+        const event = newEvents[newActivityCount % newEvents.length];
+        const newAct = { ...event, time: 'Just now', icon: event.icon };
+        const activityElement = buildActivityItem(newAct);
+        activityContainer.insertBefore(activityElement, activityContainer.firstChild);
+        // keep max 6 items for cleanliness
+        if (activityContainer.children.length > 6) {
+            activityContainer.removeChild(activityContainer.lastChild);
+        }
+        // add slight highlight effect
+        activityElement.style.transition = 'background 0.2s';
+        activityElement.style.background = '#fef9e3';
+        setTimeout(() => { activityElement.style.background = ''; }, 800);
+        newActivityCount++;
+    }
+
+    renderInitialActivities();
+    // every 12 seconds new live activity (unique engagement)
+    setInterval(addNewActivity, 12000);
+
+    // Bonus: subtle hover effect on KPI cards with data-tooltip but already looks premium
+    // Also a small animation on sidebar active (just for demo uniqueness)
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+            // optional simulated toast (non-intrusive)
+            const sectionName = this.querySelector('span')?.innerText || 'Dashboard';
+            if(sectionName !== 'Dashboard') {
+                // subtle console info (or we could show mini alert but avoid annoyance)
+                // just modern touch: could change greeting text but we keep minimal
+            }
+        });
+    });
+
+    // also adds a randomize KPI values micro animation? Not needed but shows unique polish
+    // For uniqueness, we add a small "blink" effect on the chart refresh every minute? not necessary but nice
+    // just to demonstrate dynamic realtime we can update chart randomly? But we keep consistency
+    // However, to reflect modern SaaS, we can add an optional interval to show live data incremental (optional)
+    let counter = 0;
+    setInterval(() => {
+        // subtle animation only on the active users number? we can update the KPI live? not needed but fun
+        // i'll just update the "AI Requests (24h)" value randomly to show realtime? unique behavior
+        const requestsElem = document.querySelector('.kpi-grid .kpi-card:nth-child(3) .kpi-value');
+        if(requestsElem && counter % 2 === 0) {
+            let currentVal = parseInt(requestsElem.innerText.replace('k','').replace(',',''));
+            if(isNaN(currentVal)) currentVal = 128;
+            let newVal = currentVal + Math.floor(Math.random() * 5) - 2;
+            if(newVal < 110) newVal = 128;
+            requestsElem.innerText = newVal + 'k';
+        }
+        counter++;
+    }, 18000);
+</script>
+</body>
+</html>

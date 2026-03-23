@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Priva Jet | Unparalleled Elegance in Travel</title>
+  <!-- Google Fonts: elegant serif + clean sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #2C2A29;
+      line-height: 1.4;
+      background-color: #FEFCF5;
+    }
+
+    /* container for content sections */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* narrow container for contact form */
+    .container-narrow {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== SLIDE 1: HERO with JET BACKGROUND ========== */
+    .hero-slide {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-image: url('https://unsplash.com/photos/r1o0YEBIiEo/download?force=true&w=2400');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    /* dark overlay for text readability */
+    .hero-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.45) 100%);
+      z-index: 1;
+    }
+
+    /* navigation inside hero */
+    .hero-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 32px 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      width: 100%;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #FFFFFF;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .nav-links a:hover {
+      color: #F0D5B0;
+    }
+
+    .btn-outline-nav {
+      border: 1px solid #FFFFFF;
+      padding: 8px 22px;
+      border-radius: 40px;
+      background: transparent;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.25s;
+      color: #FFFFFF !important;
+    }
+
+    .btn-outline-nav:hover {
+      background: #FFFFFF;
+      color: #1E2A2E !important;
+      border-color: #FFFFFF;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 960px;
+      padding: 0 32px;
+      width: 100%;
+    }
+
+    .hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin-bottom: 28px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+
+    .hero-content p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.95);
+      max-width: 720px;
+      margin: 0 auto 40px auto;
+      font-weight: 400;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: #FFFFFF;
+      color: #1E2A2E;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      padding: 14px 42px;
+      border-radius: 40px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary:hover {
+      background: #A67C52;
+      color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    /* ========== SLIDE 2: ABOUT SECTION ========== */
+    .about-slide {
+      padding: 100px 0;
+      background: #FEFCF5;
+    }
+
+    .about-grid {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .about-text {
+      flex: 1.2;
+    }
+
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 600;
+      color: #1F2A2F;
+      margin-bottom: 24px;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #4A4643;
+      margin-bottom: 20px;
+    }
+
+    .about-text .signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: #A67C52;
+      margin-top: 20px;
+    }
+
+    .about-image {
+      flex: 0.9;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 20px 35px -15px rgba(0,0,0,0.1);
+      object-fit: cover;
+      height: auto;
+    }
+
+    /* ========== SLIDE 3: CONSULTATION ========== */
+    .consult-slide {
+      background: #F3EFE6;
+      padding: 90px 0;
+      text-align: center;
+    }
+
+    .consult-slide h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.9rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1F2A2F;
+    }
+
+    .consult-slide p {
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto 36px auto;
+      color: #4F4A45;
+      line-height: 1.5;
+    }
+
+    .btn-consult {
+      background: #FFFFFF;
+      color: #1E2A2E;
+      border: 1px solid #CFCABC;
+      padding: 14px 44px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.25s;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-consult:hover {
+      background: #1E2A2E;
+      color: #FEFCF5;
+      border-color: #1E2A2E;
+      transform: translateY(-2px);
+    }
+
+    /* ========== SLIDE 4: CONTACT FORM (SMALLER WIDTH) ========== */
+    .contact-slide {
+      padding: 90px 0 100px;
+      background: #FEFCF5;
+    }
+
+    .contact-card {
+      background: #FFFFFF;
+      border-radius: 28px;
+      padding: 48px 52px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
+      border: 1px solid #EEE8DF;
+    }
+
+    .contact-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1F2A2F;
+      text-align: center;
+    }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: #5C5752;
+      border-bottom: 1px solid #E7E0D6;
+      padding-bottom: 28px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .name-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .name-field {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7E6E5D;
+    }
+
+    .input-group input, 
+    .input-group textarea {
+      background: #FEFAF4;
+      border: 1px solid #E2D9CF;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: #A67C52;
+      box-shadow: 0 0 0 2px rgba(166,124,82,0.2);
+    }
+
+    .input-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .travel-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .travel-row .input-group {
+      flex: 1;
+    }
+
+    .send-btn {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .btn-send {
+      background: #1E2A2E;
+      color: white;
+      border: none;
+      padding: 14px 48px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.8px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .btn-send:hover {
+      background: #A67C52;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0 50px;
+      font-size: 0.8rem;
+      color: #8B847C;
+      border-top: 1px solid #EAE3D8;
+      background: #FEFCF5;
+    }
+
+    /* responsiveness */
+    @media (max-width: 900px) {
+      .hero-nav {
+        padding: 20px 24px;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .nav-links {
+        gap: 1.5rem;
+      }
+      .hero-content h1 {
+        font-size: 3rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+      .about-grid {
+        flex-direction: column;
+        gap: 40px;
+      }
+      .about-text h2 {
+        font-size: 2.4rem;
+      }
+      .consult-slide h2 {
+        font-size: 2.2rem;
+      }
+      .contact-card {
+        padding: 32px 28px;
+      }
+      .contact-card h2 {
+        font-size: 2.2rem;
+      }
+      .container, .container-narrow {
+        padding: 0 24px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .name-row {
+        flex-direction: column;
+        gap: 18px;
+      }
+      .travel-row {
+        flex-direction: column;
+      }
+      .hero-content h1 {
+        font-size: 2.2rem;
+      }
+      .btn-primary, .btn-consult {
+        padding: 12px 28px;
+      }
+      .about-slide, .consult-slide, .contact-slide {
+        padding: 60px 0;
+      }
+    }
+
+    ::placeholder {
+      color: #BCB2A5;
+      font-weight: 300;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <!-- SLIDE 1: HERO with JET BACKGROUND -->
+  <section class="hero-slide" id="home">
+    <div class="hero-nav">
+      <div class="logo">PRIVA JET</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#consult">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="btn-outline-nav">Book now</a>
+      </div>
+    </div>
+    <div class="hero-content">
+      <h1>Discover Unparalleled<br>Elegance in Travel</h1>
+      <p>Embark on a journey where elegance meets adventure; our curated luxury travel experiences promise exclusivity, unparalleled comfort, and memories that will last a lifetime. With an eye for exceptional detail, we invite you to explore the world with a sophistication that is unmatched.</p>
+      <a href="#about" class="btn-primary">LEARN MORE</a>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: ABOUT SECTION -->
+  <section class="about-slide" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Beyond First Class<br>The Priva Jet Experience</h2>
+          <p>For over a decade, Priva Jet has been the pinnacle of private aviation, offering discerning travelers a seamless blend of safety, discretion, and uncompromising luxury. Our fleet consists of the world's most advanced business jets, each meticulously maintained and staffed by a dedicated cabin crew trained in the art of hospitality.</p>
+          <p>From personalized catering prepared by Michelin-starred chefs to bespoke itineraries that adapt to your schedule, every detail is curated to exceed expectations. We don't just fly you to your destination — we ensure the journey itself becomes an unforgettable part of your story.</p>
+          <div class="signature">— Excellence above the clouds</div>
+        </div>
+        <div class="about-image">
+          <img src="https://images.pexels.com/photos/2104421/pexels-photo-2104421.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Luxury private jet interior">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: CONSULTATION (complimentary) -->
+  <section class="consult-slide" id="consult">
+    <div class="container">
+      <h2>Reserve your complimentary consultation</h2>
+      <p>Indulge yourself in a bespoke journey meticulously curated for the discerning traveler. Book your appointment now to experience an unparalleled world of luxury tailored uniquely for you.</p>
+      <a href="#contact" class="btn-consult">BOOK CONSULTATION</a>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: CONTACT FORM with SMALLER WIDTH -->
+  <section class="contact-slide" id="contact">
+    <div class="container-narrow">
+      <div class="contact-card">
+        <h2>Contact Us</h2>
+        <div class="contact-sub">Interested in working together? Fill out some info and we will be in touch shortly. We can't wait to hear from you!</div>
+        
+        <form action="#" method="post" id="luxuryContactForm">
+          <div class="form-grid">
+            <div class="name-row">
+              <div class="name-field input-group">
+                <label>First Name <span style="font-weight: 400;">(required)</span></label>
+                <input type="text" name="first_name" placeholder="First Name" required>
+              </div>
+              <div class="name-field input-group">
+                <label>Last Name <span style="font-weight: 400;">(required)</span></label>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Email <span style="font-weight: 400;">(required)</span></label>
+              <input type="email" name="email" placeholder="your@example.com" required>
+            </div>
+
+            <div class="input-group">
+              <label>Message <span style="font-weight: 400;">(required)</span></label>
+              <textarea name="message" placeholder="Tell us about your travel dreams, preferences, or any special requests..." required></textarea>
+            </div>
+
+            <div class="input-group">
+              <label>Number of guests</label>
+              <input type="number" name="guests" placeholder="e.g., 2, 4, 6" min="1">
+            </div>
+
+            <div class="travel-row">
+              <div class="input-group">
+                <label>Date of travel</label>
+                <input type="text" name="travel_date" placeholder="mm/dd/yyyy">
+              </div>
+              <div class="input-group">
+                <label>Date of return</label>
+                <input type="text" name="return_date" placeholder="mm/dd/yyyy">
+              </div>
+            </div>
+
+            <div class="send-btn">
+              <button type="submit" class="btn-send">Send Message</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Priva Jet — Unparalleled Elegance in Travel</p>
+  </footer>
+
+  <script>
+    (function() {
+      const form = document.getElementById('luxuryContactForm');
+      if(form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const firstName = form.querySelector('input[name="first_name"]')?.value.trim() || '';
+          const lastName = form.querySelector('input[name="last_name"]')?.value.trim() || '';
+          const email = form.querySelector('input[name="email"]')?.value.trim() || '';
+          const message = form.querySelector('textarea[name="message"]')?.value.trim() || '';
+          if(!firstName || !lastName || !email || !message) {
+            alert('Please fill in all required fields: First Name, Last Name, Email, and Message.');
+            return;
+          }
+          if(!email.includes('@') || !email.includes('.')) {
+            alert('Please enter a valid email address.');
+            return;
+          }
+          alert(`Thank you, ${firstName} ${lastName}! Your consultation request has been received. A luxury travel curator will reach out shortly.`);
+          form.reset();
+        });
+      }
+
+      const dateInputs = document.querySelectorAll('input[placeholder="mm/dd/yyyy"]');
+      dateInputs.forEach(inp => {
+        inp.addEventListener('focus', function() {
+          this.placeholder = 'MM/DD/YYYY';
+        });
+        inp.addEventListener('blur', function() {
+          if(!this.value) this.placeholder = 'mm/dd/yyyy';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
